@@ -9,5 +9,4 @@ struct Persona {
     int tamanio_tarjeta ;
     int * tarjeta ;
     bool quiere_intercambiar ;
-    int xd;
 };
