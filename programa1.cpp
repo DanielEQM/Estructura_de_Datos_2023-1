@@ -14,5 +14,5 @@ struct SaldoColaborador {
     int saldo_almuerzo ;
     int saldo_once ;
     int saldo_cena ;
-}
+};
 
