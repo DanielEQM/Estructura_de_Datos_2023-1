@@ -16,3 +16,4 @@ struct SaldoColaborador {
     int saldo_cena ;
     int marico;
 };
+
