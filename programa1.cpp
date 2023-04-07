@@ -16,5 +16,9 @@ struct SaldoColaborador {
     int saldo_cena ;
 };
 
+bool puedeConsumir(char* rut, int servicio, string consumos_dia){
+    
+};
 
-// hola
+
+// matigod
