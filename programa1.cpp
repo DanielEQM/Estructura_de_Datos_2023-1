@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -17,8 +18,16 @@ struct SaldoColaborador {
 };
 
 bool puedeConsumir(char* rut, int servicio, string consumos_dia){
-    
+    return 0;
 };
 
+int main(){
+    int n;
+    std::ifstream file;
+    file.open("saldos.bin", ios::binary);
+    file.read((char*)&n, sizeof(int));
+    cout << n << "xd" << endl;
+    file.close();
+};
 
 // matigod
