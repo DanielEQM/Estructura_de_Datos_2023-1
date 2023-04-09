@@ -10,7 +10,7 @@ int const SERV_ONCE = 2;
 int const SERV_CENA = 3;
 
 struct SaldoColaborador {
-    string rut ;
+    char rut[11] ;
     int saldo_desayuno ;
     int saldo_almuerzo ;
     int saldo_once ;
@@ -23,11 +23,21 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
 
 int main(){
     int n;
+    string i;
     std::ifstream file;
-    file.open("saldos.bin", ios::binary);
+    file.open("saldos.bin", ios::in|ios::binary);
+    if(!file.is_open()){
+		cout << "ERROR, no hay ningun archivo abierto." << endl;
+		exit(1);
+    }
     file.read((char*)&n, sizeof(int));
-    cout << n << "xd" << endl;
+    file.seekg(1);
+    for(int m=0; m<(n);m++){
+        getline(file,i);
+        cout << i << endl;
+    }
     file.close();
+    return 0;
 };
 
 // matigod
