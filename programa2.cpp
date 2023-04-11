@@ -4,6 +4,7 @@
 #include <cstring>
 
 using namespace std;
+int cantidad;
 
 struct Persona {
     string nombre;
@@ -45,11 +46,15 @@ int puntaje(Persona* p1){
     return contador;
 }
 
-//Persona* unDia(Persona* personas,int dia){}
+Persona* unDia(Persona* personas,int dia){
+    for(int i=0;i<cantidad;i++){
+        
+    }
+    
+}
 
 int main(){
     int m;
-    int cantidad;
     //int dias = 2;
     int *ficha;
     cin>> cantidad;
