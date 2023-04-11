@@ -25,7 +25,7 @@ int* comprarTarjeta(string nombre, int dia, int &m){
     int* ficha = new int[m];
     for (int i = 0; i < m; i++){
         ficha[i] = (int) nombre[i] % dia;
-        cout << ficha[i]<< "\n";
+        //cout << ficha[i]<< "\n";
     }
     return ficha;
 }
@@ -44,13 +44,14 @@ int main(){
     for (int i=0; i<cantidad; i++){
         ficha = comprarTarjeta(per[i].nombre, 2, m);
         per[i].tarjeta = ficha;
-        /* Demuestra que es el arreglo correspondiente
-        for (int j= 0; j < 7;j++){
-            cout << (per[i].tarjeta)[j] << " ";
-        }
-        cout<<"\n";
-        */
         delete[] ficha;
     }
     return 0;
 }
+/* 
+Demuestra que es el arreglo correspondiente
+    for (int j= 0; j < 7;j++){
+        cout << (per[i].tarjeta)[j] << " ";
+    }
+    cout<<"\n";
+*/
