@@ -29,7 +29,12 @@ int* comprarTarjeta(string nombre, int dia, int &m){
     }
     return ficha;
 }
-//void intercambiarTarjeta(Persona*p1, Persona*p2){}
+void intercambiarTarjeta(Persona*p1, Persona*p2){
+    int* swap = p1->tarjeta;
+    p1->tarjeta = p2->tarjeta;
+    p2->tarjeta = swap;
+    p1->quiere_intercambiar = 0;
+}
 
 int main(){
     int m;
@@ -45,6 +50,16 @@ int main(){
         ficha = comprarTarjeta(per[i].nombre, 2, m);
         per[i].tarjeta = ficha;
         delete[] ficha;
+    }
+    for (int i=0; i<cantidad; i++){
+        if (per[i].quiere_intercambiar != 0){
+            for (int j = i + 1; j < cantidad; j++){
+                if (per[j].quiere_intercambiar != 0){
+                    intercambiarTarjeta(&per[i], &per[j]);
+                    break;
+                }
+            }
+        }
     }
     return 0;
 }
