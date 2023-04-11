@@ -36,6 +36,17 @@ void intercambiarTarjeta(Persona*p1, Persona*p2){
     p1->quiere_intercambiar = 0;
 }
 
+int puntaje(Persona* p1){
+    int contador,numero;
+    for(int i=0;i<p1->tamanio_tarjeta-1;i++){
+        numero=p1->tarjeta[i]*p1->fecha[i%10];
+        contador+=numero;
+    }
+    return contador;
+}
+
+//Persona* unDia(Persona* personas,int dia){}
+
 int main(){
     int m;
     int cantidad;
