@@ -23,7 +23,7 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
 
 int main(){
     int n;
-    string i;
+    char i;
     std::ifstream file;
     file.open("saldos.bin", ios::in|ios::binary);
     if(!file.is_open()){
@@ -32,10 +32,10 @@ int main(){
     }
     file.read((char*)&n, sizeof(int));
     file.seekg(1);
-    for(int m=0; m<(n);m++){
-        getline(file,i);
-        cout << i << endl;
+    while((i = file.get()) != EOF){
+        cout << i;
     }
+    cout << endl;
     file.close();
     return 0;
 };
