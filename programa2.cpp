@@ -47,8 +47,9 @@ int puntaje(Persona* p1){
 }
 
 Persona* unDia(Persona* personas,int dia){
+    int *tar[cantidad];
     for(int i=0;i<cantidad;i++){
-        
+        tar[i]=comprarTarjeta(personas->nombre,dia,cantidad)
     }
     
 }
