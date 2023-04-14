@@ -27,15 +27,14 @@ int* comprarTarjeta(string nombre, int dia, int &m){
     for (int i = 0; i < m; i++){
         ficha[i] = (int) nombre[i] % dia;
     }
-    for(int i = 0; i<m; i++){
-        cout<<ficha[i]<<" ";
-    }
-    cout<<"\n";
     return ficha;
 }
 
 void intercambiarTarjeta(Persona*p1, Persona*p2){
     int* swap = p1->tarjeta;
+    int swap2 = p1->tamanio_tarjeta;
+    p1->tamanio_tarjeta = p2->tamanio_tarjeta;
+    p2->tamanio_tarjeta = swap2;
     p1->tarjeta = p2->tarjeta;
     p2->tarjeta = swap;
     p1->quiere_intercambiar = 0;
@@ -45,9 +44,11 @@ void intercambiarTarjeta(Persona*p1, Persona*p2){
 int puntaje(Persona* p1){
     int contador = 0,numero;
     for(int i=0;i<p1->tamanio_tarjeta-1;i++){
-        numero= p1->tarjeta[i]*p1->fecha[i%10];
+        numero= p1->tarjeta[i] * ((int) p1->fecha[i%10]);
+        cout << p1->tamanio_tarjeta << ", "<< numero << ", "<< p1->tarjeta[i] << ", "<< (int)p1->fecha[i%10]<< "\n";
         contador+=numero;
     }
+    cout << p1->nombre << "\n";
     return contador;
 }
 
@@ -65,14 +66,13 @@ bool comun(Persona *p1, Persona *p2){
 }
 
 Persona* unDia(Persona* personas,int dia){
-    dia = 1;
     int m;
     bool X;
     int menor = -1;
     int puntos;
     int win;
     for (int i=0; i<cantidad; i++){
-        personas[i].tarjeta = comprarTarjeta(personas[i].nombre, 1, m);
+        personas[i].tarjeta = comprarTarjeta(personas[i].nombre, dia, m);
         personas[i].tamanio_tarjeta = m;
     }
     for (int i=0; i<cantidad; i++){
@@ -101,9 +101,7 @@ Persona* unDia(Persona* personas,int dia){
 void variosDias(Persona* personas, int cant_dias){
     Persona *pers;
     for(int i= 1; i < cant_dias + 1; i++){
-        for(int j=0; j < cantidad; j++){
-            pers = unDia(personas, i);
-        }
+        pers = unDia(personas, i);
         cout<<pers->nombre << " "<< pers->fecha << " " << puntaje(pers) << "\n";
         for (int i = 0; i <cantidad; i++){
             delete[] personas[i].tarjeta;
