@@ -13,13 +13,6 @@ struct Persona {
     int* tarjeta;
     bool quiere_intercambiar;
 };
-/*
-4
-Pepito 1999-01-12 1
-Juanito 2000-12-10 0
-sinnombre 2012-20-01 1
-puntoycoma 2012-20-20 0
-*/
 
 int* comprarTarjeta(string nombre, int dia, int &m){
     m = nombre.length();
@@ -43,12 +36,10 @@ void intercambiarTarjeta(Persona*p1, Persona*p2){
 
 int puntaje(Persona* p1){
     int contador = 0,numero;
-    for(int i=0;i<p1->tamanio_tarjeta-1;i++){
+    for(int i=0;i<p1->tamanio_tarjeta;i++){
         numero= p1->tarjeta[i] * ((int) p1->fecha[i%10]);
-        cout << p1->tamanio_tarjeta << ", "<< numero << ", "<< p1->tarjeta[i] << ", "<< (int)p1->fecha[i%10]<< "\n";
         contador+=numero;
     }
-    cout << p1->nombre << "\n";
     return contador;
 }
 
@@ -102,14 +93,13 @@ void variosDias(Persona* personas, int cant_dias){
     Persona *pers;
     for(int i= 1; i < cant_dias + 1; i++){
         pers = unDia(personas, i);
-        cout<<pers->nombre << " "<< pers->fecha << " " << puntaje(pers) << "\n";
+        int score = puntaje(pers);
+        cout<<pers->nombre << " " << pers->fecha << " " << score << "\n";
         for (int i = 0; i <cantidad; i++){
             delete[] personas[i].tarjeta;
         }
     }
 }
-
-
 
 int main(){
     cin>> cantidad;
