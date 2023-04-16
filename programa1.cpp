@@ -37,18 +37,13 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
         i++;
     }
     cout << i << "\n";
-    string x;
+    file.seekg(0);
+    char x[11];
     string comida;
-    file >> x;
-    cout << x << "\n";
-    file >> comida;
-    cout << comida;
-    cout << x << " " << comida << "\n";
-    /*for(int j = 0; j < i; j++){
+    for(int j = 0; j < i; j++){
         file >> x >> comida;
-        cout << x << " " << comida;
+        cout << x << " " << comida << "\n";
     }
-    */
     return 0;
     }
 
