@@ -19,90 +19,87 @@ struct SaldoColaborador {
 
 bool puedeConsumir(char* rut, int servicio, string consumos_dia){
     fstream file;
-    file.open("consumosD.txt", ios::in);
-    if (!file.is_open()){
-        cerr << "Error al abrir el archivo" << "\n";
-        exit(1);
-    }
-    string line;
     int i = 0;
-    while(!file.eof()){
-        getline(file, line);
-        cout << line << "\n";
-        i++;
-    }
-    file.close();
+    string line;
     ifstream bin;
+    int n;
+    int saldo;
+    bool revision = false;
     bin.open("saldos.bin", ios::binary);
     if (!bin.is_open()){
         cerr << "Error al abrir el archivo" << "\n";
         exit(1);
     }
-    cout << "xd" << "\n";
-    int n;
-    int saldo;
-    bool revision = false;
     bin.read((char*)&n, sizeof(n));
     SaldoColaborador* arr = new SaldoColaborador[n];
     bin.read((char*)arr, sizeof(SaldoColaborador)*n);
+    file.open(consumos_dia, ios::in);
+    if (!file.is_open()){
+        cerr << "Error al abrir el archivo" << "\n";
+        exit(1);
+    }
+    while(!file.eof()){
+        getline(file, line);
+        //cout << line << "\n";
+        i++;
+    }
+    file.close();
+    string mosquito = rut;
     for(int m=0; m<n; m++){
-        if(arr[m].rut == rut){
+        string rgb = arr[m].rut;
+        if(rgb == mosquito){
             revision = true;
-            if(servicio == 0){
+            if(servicio == SERV_DESAYUNO){
                 saldo = arr[m].saldo_desayuno;
             }
-            else if (servicio == 1){
+            else if (servicio == SERV_ALMUERZO){
                 saldo = arr[m].saldo_almuerzo;
             }
-            else if (servicio == 2){
+            else if (servicio == SERV_ONCE){
                 saldo = arr[m].saldo_once;
             }
-            else if (servicio == 3){
+            else if (servicio == SERV_CENA){
                 saldo = arr[m].saldo_cena;
             }
         }
     }
+    cout << rut << "\n";
     if (revision == false){
-        cout << "sexo2" << "\n";
         return 0;
     }
-    file.open("consumosD.txt", ios::in);
+    file.open(consumos_dia, ios::in);
     if (!file.is_open()){
         cerr << "Error al abrir el archivo" << "\n";
         exit(1);
     }
     file.seekg(0);
-    char x[11];
+    string x;
     string comida;
     string quiere;
     int gasto = 0;
     for(int j = 0; j < i; j++){
         file >> x >> comida;
-        if(x == rut){
+        if(x == mosquito){
             if (comida == "DESAYUNO"){
-                int comida2 = 0;
-                if(comida2 == servicio){
+                if(SERV_DESAYUNO == servicio){
                     gasto++;
                     quiere = comida;
                 }
             }
             if (comida == "ALMUERZO"){
-                int comida2 = 1;
-                if(comida2 == servicio){
+                if(SERV_ALMUERZO == servicio){
                     gasto++;
                     quiere = comida;
                 }
             }
             if (comida == "ONCE"){
-                int comida2 = 2;
-                if(comida2 == servicio){
+                if(SERV_ONCE == servicio){
                     gasto++;
                     quiere = comida;
                 }
             }
             if (comida == "CENA"){
-                int comida2 = 3;
-                if(comida2 == servicio){
+                if(SERV_CENA == servicio){
                     gasto++;
                     quiere = comida;
                 }
@@ -121,14 +118,15 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
     }
     file.seekg(0, ios::end);
     file << rut << " " << quiere << "\n";
+    bin.close();
     return 1;
-    }
+}
 
 
 
 int main(){
-    bool marica;
-    marica = puedeConsumir("11111111-1", SERV_DESAYUNO, "consumosD.txt");
+    char f[11] = "11111111-1";
+    cout << puedeConsumir(f, SERV_DESAYUNO, "consumosD.txt") <<"\n";
     return 0;
 }
 
