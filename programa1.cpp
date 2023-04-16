@@ -17,11 +17,6 @@ struct SaldoColaborador {
     int saldo_cena ;
 };
 
-/*struct comparacion {
-    char rutC[11] ;
-    string comida;
-};
-*/
 bool puedeConsumir(char* rut, int servicio, string consumos_dia){
     fstream file;
     file.open("consumosD.txt", ios::in);
@@ -36,42 +31,104 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
         cout << line << "\n";
         i++;
     }
-    cout << i << "\n";
+    file.close();
+    ifstream bin;
+    bin.open("saldos.bin", ios::binary);
+    if (!bin.is_open()){
+        cerr << "Error al abrir el archivo" << "\n";
+        exit(1);
+    }
+    cout << "xd" << "\n";
+    int n;
+    int saldo;
+    bool revision = false;
+    bin.read((char*)&n, sizeof(n));
+    SaldoColaborador* arr = new SaldoColaborador[n];
+    bin.read((char*)arr, sizeof(SaldoColaborador)*n);
+    for(int m=0; m<n; m++){
+        if(arr[m].rut == rut){
+            revision = true;
+            if(servicio == 0){
+                saldo = arr[m].saldo_desayuno;
+            }
+            else if (servicio == 1){
+                saldo = arr[m].saldo_almuerzo;
+            }
+            else if (servicio == 2){
+                saldo = arr[m].saldo_once;
+            }
+            else if (servicio == 3){
+                saldo = arr[m].saldo_cena;
+            }
+        }
+    }
+    if (revision == false){
+        cout << "sexo2" << "\n";
+        return 0;
+    }
+    file.open("consumosD.txt", ios::in);
+    if (!file.is_open()){
+        cerr << "Error al abrir el archivo" << "\n";
+        exit(1);
+    }
     file.seekg(0);
     char x[11];
     string comida;
+    string quiere;
+    int gasto = 0;
     for(int j = 0; j < i; j++){
         file >> x >> comida;
-        cout << x << " " << comida << "\n";
+        if(x == rut){
+            if (comida == "DESAYUNO"){
+                int comida2 = 0;
+                if(comida2 == servicio){
+                    gasto++;
+                    quiere = comida;
+                }
+            }
+            if (comida == "ALMUERZO"){
+                int comida2 = 1;
+                if(comida2 == servicio){
+                    gasto++;
+                    quiere = comida;
+                }
+            }
+            if (comida == "ONCE"){
+                int comida2 = 2;
+                if(comida2 == servicio){
+                    gasto++;
+                    quiere = comida;
+                }
+            }
+            if (comida == "CENA"){
+                int comida2 = 3;
+                if(comida2 == servicio){
+                    gasto++;
+                    quiere = comida;
+                }
+            }
+        }
     }
-    return 0;
+    if (gasto >= saldo){
+        cout << "sexo" << "\n";
+        return 0;
+    }
+    file.close();
+    file.open("consumosD.txt", ios::out);
+    if (!file.is_open()){
+        cerr << "Error al abrir el archivo" << "\n";
+        exit(1);
+    }
+    file.seekg(0, ios::end);
+    file << rut << " " << quiere << "\n";
+    return 1;
     }
 
 
 
 int main(){
-    ifstream fp;
-    int n;
     bool marica;
-    fp.open("saldos.bin", ios::binary);
-    if (!fp.is_open()){
-        cerr << "Error al abrir el archivo" << "\n";
-        return 1;
-    }
-    fp.read((char*)&n, sizeof(int));
-    SaldoColaborador* arr = new SaldoColaborador[n];
-    fp.read((char*)arr, sizeof(SaldoColaborador) * n);
-    marica = puedeConsumir(arr[1].rut, SERV_DESAYUNO, "consumosD.txt");
-    /*for (int i = 0; i < n; i++){
-        cout << arr[i].rut << " " << arr[i].saldo_almuerzo << " " << arr[i].saldo_cena << " " << arr[i].saldo_desayuno << " " << arr[i].saldo_once << "\n";
-        int eleccion;
-        cout << "¿" << arr[i].rut << " que deseas consumir?:" << "\n";
-        cout << "0 = Desayuno, 1 = Almuerzo, 2 = Once, 3 = Cena" << "\n";
-        cin >> eleccion;
-        puedeConsumir(arr[i].rut, eleccion, "consumosD.txt");
-    }
-    */
-    fp.close();
+    marica = puedeConsumir("11111111-1", SERV_DESAYUNO, "consumosD.txt");
     return 0;
 }
 
