@@ -31,27 +31,14 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
     }
     file.close();
     int i = 0;
-    int vacio = 0;
-    comparacion comp;
     file.open("consumosD.txt", ios::in);
-    while(!file.eof()){
-        file.seekg(i);
-        file.read((char*)&comp, sizeof(comparacion));
-        cout << comp.rutC << "\n";
+    while(file.eof())
         i++;
-        if (i >= 2){
-            vacio = 1;
-        }
-        cout << i << "\n";
-    }
+    cout << i << "\n";
     file.close();
     file.open("consumosD.txt", ios::app);
-    if (vacio == 0){
-        file << rut << " " << servicio << "\n";
-    }
     cout << "final" << "\n";
     file.close();
-
     return 0;
 }
 
