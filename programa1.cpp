@@ -17,35 +17,47 @@ struct SaldoColaborador {
     int saldo_cena ;
 };
 
-struct comparacion {
+/*struct comparacion {
     char rutC[11] ;
-    int comida;
+    string comida;
 };
-
+*/
 bool puedeConsumir(char* rut, int servicio, string consumos_dia){
     fstream file;
-    file.open("consumosD.txt", ios::app);
+    file.open("consumosD.txt", ios::in);
     if (!file.is_open()){
         cerr << "Error al abrir el archivo" << "\n";
-        return 1;
+        exit(1);
     }
-    file.close();
+    string line;
     int i = 0;
-    file.open("consumosD.txt", ios::in);
-    while(file.eof())
+    while(!file.eof()){
+        getline(file, line);
+        cout << line << "\n";
         i++;
+    }
     cout << i << "\n";
-    file.close();
-    file.open("consumosD.txt", ios::app);
-    cout << "final" << "\n";
-    file.close();
+    string x;
+    string comida;
+    file >> x;
+    cout << x << "\n";
+    file >> comida;
+    cout << comida;
+    cout << x << " " << comida << "\n";
+    /*for(int j = 0; j < i; j++){
+        file >> x >> comida;
+        cout << x << " " << comida;
+    }
+    */
     return 0;
-}
+    }
+
 
 
 int main(){
     ifstream fp;
     int n;
+    bool marica;
     fp.open("saldos.bin", ios::binary);
     if (!fp.is_open()){
         cerr << "Error al abrir el archivo" << "\n";
@@ -54,7 +66,8 @@ int main(){
     fp.read((char*)&n, sizeof(int));
     SaldoColaborador* arr = new SaldoColaborador[n];
     fp.read((char*)arr, sizeof(SaldoColaborador) * n);
-    for (int i = 0; i < n; i++){
+    marica = puedeConsumir(arr[1].rut, SERV_DESAYUNO, "consumosD.txt");
+    /*for (int i = 0; i < n; i++){
         cout << arr[i].rut << " " << arr[i].saldo_almuerzo << " " << arr[i].saldo_cena << " " << arr[i].saldo_desayuno << " " << arr[i].saldo_once << "\n";
         int eleccion;
         cout << "¿" << arr[i].rut << " que deseas consumir?:" << "\n";
@@ -62,6 +75,7 @@ int main(){
         cin >> eleccion;
         puedeConsumir(arr[i].rut, eleccion, "consumosD.txt");
     }
+    */
     fp.close();
     return 0;
 }
