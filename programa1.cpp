@@ -28,19 +28,21 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
     bin.open("saldos.bin", ios::binary);
     if (!bin.is_open()){
         cerr << "Error al abrir el archivo" << "\n";
+        cout << "sexo1" << "\n";
         exit(1);
     }
     bin.read((char*)&n, sizeof(n));
     SaldoColaborador* arr = new SaldoColaborador[n];
     bin.read((char*)arr, sizeof(SaldoColaborador)*n);
+    bin.close();
     file.open(consumos_dia, ios::in);
     if (!file.is_open()){
         cerr << "Error al abrir el archivo" << "\n";
+        cout << "sexo2" << "\n";
         exit(1);
     }
     while(!file.eof()){
         getline(file, line);
-        //cout << line << "\n";
         i++;
     }
     file.close();
@@ -70,6 +72,7 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
     file.open(consumos_dia, ios::in);
     if (!file.is_open()){
         cerr << "Error al abrir el archivo" << "\n";
+        cout << "sexo3" << "\n";
         exit(1);
     }
     file.seekg(0);
@@ -86,19 +89,19 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
                     quiere = comida;
                 }
             }
-            if (comida == "ALMUERZO"){
+            else if (comida == "ALMUERZO"){
                 if(SERV_ALMUERZO == servicio){
                     gasto++;
                     quiere = comida;
                 }
             }
-            if (comida == "ONCE"){
+            else if (comida == "ONCE"){
                 if(SERV_ONCE == servicio){
                     gasto++;
                     quiere = comida;
                 }
             }
-            if (comida == "CENA"){
+            else if (comida == "CENA"){
                 if(SERV_CENA == servicio){
                     gasto++;
                     quiere = comida;
@@ -106,19 +109,17 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
             }
         }
     }
+    file.close();
     if (gasto >= saldo){
-        cout << "sexo" << "\n";
         return 0;
     }
-    file.close();
-    file.open("consumosD.txt", ios::out);
+    file.open(consumos_dia, ios::app);
     if (!file.is_open()){
         cerr << "Error al abrir el archivo" << "\n";
+        cout << "sexo4" << "\n";
         exit(1);
     }
-    file.seekg(0, ios::end);
-    file << rut << " " << quiere << "\n";
-    bin.close();
+    file << "\n" << rut << " " << quiere;
     return 1;
 }
 
@@ -126,7 +127,7 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
 
 int main(){
     char f[11] = "11111111-1";
-    cout << puedeConsumir(f, SERV_DESAYUNO, "consumosD.txt") <<"\n";
+    cout << puedeConsumir(f, SERV_ALMUERZO, "consumosD.txt") <<"\n";
     return 0;
 }
 
