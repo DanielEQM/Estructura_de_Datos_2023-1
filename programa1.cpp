@@ -34,6 +34,8 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
     SaldoColaborador* arr = new SaldoColaborador[n];
     bin.read((char*)arr, sizeof(SaldoColaborador)*n);
     bin.close();
+    file.open(consumos_dia, ios::app | ios::out);
+    file.close();
     file.open(consumos_dia, ios::in);
     if (!file.is_open()){
         cerr << "Error al abrir el archivo" << "\n";
@@ -66,7 +68,7 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
     if (revision == false){
         return 0;
     }
-    file.open(consumos_dia, ios::in);
+    file.open(consumos_dia, ios::in | ios::out);
     if (!file.is_open()){
         cerr << "Error al abrir el archivo" << "\n"; 
         exit(1);
@@ -109,12 +111,13 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
     if (gasto >= saldo){
         return 0;
     }
-    file.open(consumos_dia, ios::app);
+    file.open(consumos_dia, ios::app | ios::out);
     if (!file.is_open()){
         cerr << "Error al abrir el archivo" << "\n";
         exit(1);
     }
     file << "\n" << rut << " " << quiere;
+    file.close();
     return 1;
 }
 
@@ -137,7 +140,7 @@ o no exista.
 */
 
 int main(){
-    /* Este es el formato que usamos para usar la función
+    /*Este es el formato que usamos para usar la función
     char f[11] = "11111111-1"; 
     cout << puedeConsumir(f, SERV_ALMUERZO, "consumosD.txt") <<"\n";
     */
