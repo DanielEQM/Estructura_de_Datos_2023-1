@@ -45,7 +45,6 @@ void intercambiarTarjeta(Persona*p1, Persona*p2){
     p2->tamanio_tarjeta = swap2;
     p1->tarjeta = p2->tarjeta;
     p2->tarjeta = swap;
-    p1->quiere_intercambiar = 0;
 }
 
 /*****
