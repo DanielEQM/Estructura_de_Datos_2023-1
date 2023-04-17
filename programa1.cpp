@@ -28,7 +28,6 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
     bin.open("saldos.bin", ios::binary);
     if (!bin.is_open()){
         cerr << "Error al abrir el archivo" << "\n";
-        cout << "sexo1" << "\n";
         exit(1);
     }
     bin.read((char*)&n, sizeof(n));
@@ -38,7 +37,6 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
     file.open(consumos_dia, ios::in);
     if (!file.is_open()){
         cerr << "Error al abrir el archivo" << "\n";
-        cout << "sexo2" << "\n";
         exit(1);
     }
     while(!file.eof()){
@@ -46,10 +44,10 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
         i++;
     }
     file.close();
-    string mosquito = rut;
+    string srut = rut;
     for(int m=0; m<n; m++){
-        string rgb = arr[m].rut;
-        if(rgb == mosquito){
+        string arut = arr[m].rut; //
+        if(arut == srut){
             revision = true;
             if(servicio == SERV_DESAYUNO){
                 saldo = arr[m].saldo_desayuno;
@@ -65,14 +63,12 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
             }
         }
     }
-    cout << rut << "\n";
     if (revision == false){
         return 0;
     }
     file.open(consumos_dia, ios::in);
     if (!file.is_open()){
-        cerr << "Error al abrir el archivo" << "\n";
-        cout << "sexo3" << "\n";
+        cerr << "Error al abrir el archivo" << "\n"; 
         exit(1);
     }
     file.seekg(0);
@@ -82,7 +78,7 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
     int gasto = 0;
     for(int j = 0; j < i; j++){
         file >> x >> comida;
-        if(x == mosquito){
+        if(x == srut){
             if (comida == "DESAYUNO"){
                 if(SERV_DESAYUNO == servicio){
                     gasto++;
@@ -116,19 +112,34 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
     file.open(consumos_dia, ios::app);
     if (!file.is_open()){
         cerr << "Error al abrir el archivo" << "\n";
-        cout << "sexo4" << "\n";
         exit(1);
     }
     file << "\n" << rut << " " << quiere;
     return 1;
 }
 
-
+/*****
+* bool puedeConsumir
+******
+* la funcion guarda la información del archivo binario en el struct.
+Luego se busca el saldo que tiene según el parámetro.
+Luego abre el archivo ASCII y revisa los gastos del rut; seguido de eso,
+compara si el saldo y el gasto son iguales o si el saldo es menor al gasto. 
+******
+* Recibe tres parámetros: 
+• Un puntero que apunta a un char. 
+• Un entero denotado por una de las constantes de servicio.
+• Un string con el nombre del archivo que tiene los consumos.
+******
+* La función retorna 1 si el rut asociado tiene para gastar saldo en el
+servicio requerido; 0 en caso de que la persona no tenga saldo suficiente
+o no exista.
+*/
 
 int main(){
-    char f[11] = "11111111-1";
+    /* Este es el formato que usamos para usar la función
+    char f[11] = "11111111-1"; 
     cout << puedeConsumir(f, SERV_ALMUERZO, "consumosD.txt") <<"\n";
+    */
     return 0;
 }
-
-// matigod
