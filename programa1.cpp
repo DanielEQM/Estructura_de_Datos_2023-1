@@ -48,7 +48,7 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
     file.close();
     string srut = rut;
     for(int m=0; m<n; m++){
-        string arut = arr[m].rut; //
+        string arut = arr[m].rut;
         if(arut == srut){
             revision = true;
             if(servicio == SERV_DESAYUNO){
