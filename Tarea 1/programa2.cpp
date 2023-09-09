@@ -185,3 +185,7 @@ int main(){
     variosDias(per, 2);
     return 0;
 }
+
+/*
+solo funciono con nuestro main, murio con el de prueba Dx
+*/

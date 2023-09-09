@@ -47,28 +47,34 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
     }
     file.close();
     string srut = rut;
+    string quiere;
     for(int m=0; m<n; m++){
         string arut = arr[m].rut;
         if(arut == srut){
             revision = true;
             if(servicio == SERV_DESAYUNO){
                 saldo = arr[m].saldo_desayuno;
+                quiere = "DESAYUNO";
             }
             else if (servicio == SERV_ALMUERZO){
                 saldo = arr[m].saldo_almuerzo;
+                quiere = "ALMUERZO";
             }
             else if (servicio == SERV_ONCE){
                 saldo = arr[m].saldo_once;
+                quiere = "ONCE";
             }
             else if (servicio == SERV_CENA){
                 saldo = arr[m].saldo_cena;
+                quiere = "CENA";
             }
         }
     }
     if (revision == false){
+        delete[] arr;
         return 0;
     }
-    file.open(consumos_dia, ios::in | ios::out);
+    file.open(consumos_dia, ios::in);
     if (!file.is_open()){
         cerr << "Error al abrir el archivo" << "\n"; 
         exit(1);
@@ -76,7 +82,6 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
     file.seekg(0);
     string x;
     string comida;
-    string quiere;
     int gasto = 0;
     for(int j = 0; j < i; j++){
         file >> x >> comida;
@@ -84,39 +89,37 @@ bool puedeConsumir(char* rut, int servicio, string consumos_dia){
             if (comida == "DESAYUNO"){
                 if(SERV_DESAYUNO == servicio){
                     gasto++;
-                    quiere = comida;
                 }
             }
             else if (comida == "ALMUERZO"){
                 if(SERV_ALMUERZO == servicio){
                     gasto++;
-                    quiere = comida;
                 }
             }
             else if (comida == "ONCE"){
                 if(SERV_ONCE == servicio){
                     gasto++;
-                    quiere = comida;
                 }
             }
             else if (comida == "CENA"){
                 if(SERV_CENA == servicio){
                     gasto++;
-                    quiere = comida;
                 }
             }
         }
     }
     file.close();
-    if (gasto >= saldo){
+    if (gasto >= saldo){ 
+        delete[] arr;
         return 0;
     }
-    file.open(consumos_dia, ios::app | ios::out);
+    file.open(consumos_dia, ios::app);
     if (!file.is_open()){
         cerr << "Error al abrir el archivo" << "\n";
         exit(1);
     }
     file << "\n" << rut << " " << quiere;
+    delete[] arr;
     file.close();
     return 1;
 }
